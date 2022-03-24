@@ -3,9 +3,9 @@
     <TargetFrameworks Condition="'$(LibraryFrameworks)'==''">net45;net40;net35;netstandard1.3;netstandard2.0</TargetFrameworks>
     <TargetFrameworks Condition="'$(LibraryFrameworks)'!=''">$(LibraryFrameworks)</TargetFrameworks>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
-    <FileVersion>2.0.1.1</FileVersion>
-    <VersionPrefix>2.0.1</VersionPrefix>
-    <VersionSuffix>1</VersionSuffix>
+    <FileVersion>2.0.2</FileVersion>
+    <VersionPrefix>2.0.2</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
     <Authors>Newtonsoft</Authors>
     <Company>Newtonsoft</Company>
     <Product>Json.NET Schema</Product>
