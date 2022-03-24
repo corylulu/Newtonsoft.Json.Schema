@@ -30,6 +30,7 @@ namespace Newtonsoft.Json.Schema.Infrastructure
         private readonly JSchemaResolver _resolver;
         private readonly Uri? _baseUri;
         private readonly bool _validateSchema;
+        private readonly JSchemaReaderOptions? _options;
         private readonly SchemaValidationEventHandler? _validationEventHandler;
         private readonly List<ValidationError>? _validationErrors;
         private readonly IList<JsonValidator>? _validators;
@@ -58,6 +59,7 @@ namespace Newtonsoft.Json.Schema.Infrastructure
 
             _resolver = settings.Resolver ?? JSchemaDummyResolver.Instance;
             _baseUri = settings.BaseUri;
+            _options = settings.Options;
             _validateSchema = settings.ValidateVersion;
             _schemaDiscovery = new JSchemaDiscovery(null);
             _validationEventHandler = settings.GetValidationEventHandler();
@@ -88,7 +90,7 @@ namespace Newtonsoft.Json.Schema.Infrastructure
 
             ValidateSchemaStart(reader, null);
 
-            RootSchema = new JSchema();
+            RootSchema = new JSchema() { Options = _options };
 
             LoadAndSetSchema(reader, null, s =>
             {
@@ -908,7 +910,11 @@ namespace Newtonsoft.Json.Schema.Infrastructure
                         {
                             if (typeSchemas != null)
                             {
-                                typeSchemas.Add(new JSchema { Type = t });
+                                typeSchemas.Add(new JSchema 
+                                { 
+                                    Type = t,
+                                    Options = _options
+                                });
                             }
                             else
                             {
@@ -948,7 +954,8 @@ namespace Newtonsoft.Json.Schema.Infrastructure
                                 {
                                     typeSchemas.Add(new JSchema
                                     {
-                                        Type = type
+                                        Type = type,
+                                        Options = _options
                                     });
                                 }
                                 types = null;
@@ -984,6 +991,7 @@ namespace Newtonsoft.Json.Schema.Infrastructure
             }
 
             JSchema loadingSchema = new JSchema();
+            loadingSchema.Options = _options;
             loadingSchema.State = JSchemaState.Loading;
             loadingSchema.BaseUri = _baseUri;
             loadingSchema.Root = isRoot;
@@ -1048,7 +1056,6 @@ namespace Newtonsoft.Json.Schema.Infrastructure
                 }
 
                 loadingSchema.State = JSchemaState.Default;
-
                 setSchema(loadingSchema);
             }
             finally
@@ -1160,6 +1167,7 @@ namespace Newtonsoft.Json.Schema.Infrastructure
             {
                 BaseUri = schemaReference.BaseUri,
                 Resolver = _resolver,
+                Options = _options,
                 ValidateVersion = _validateSchema,
                 Validators = _validators,
                 ResolveSchemaReferences = _resolveSchemaReferences
@@ -1564,7 +1572,7 @@ namespace Newtonsoft.Json.Schema.Infrastructure
                     {
                         if (target.Not == null)
                         {
-                            target.Not = new JSchema();
+                            target.Not = new JSchema() { Options = _options };
                         }
 
                         object disallowResult = ReadType(reader, target, name)!;

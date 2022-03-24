@@ -9,6 +9,17 @@ using System.Collections.Generic;
 namespace Newtonsoft.Json.Schema
 {
     /// <summary>
+    /// Validation options for JSchema
+    /// </summary>
+    public class JSchemaReaderOptions
+    {
+        /// <summary>
+        /// Allow non-well formed URIs 
+        /// </summary>
+        public bool AllowMalformedUris { get; set; } = false;
+    }
+
+    /// <summary>
     /// Specifies the settings used when reading a <see cref="JSchema"/>.
     /// </summary>
     public class JSchemaReaderSettings
@@ -26,6 +37,8 @@ namespace Newtonsoft.Json.Schema
         /// The <see cref="JSchemaResolver"/> to use when resolving schema references.
         /// </summary>
         public JSchemaResolver? Resolver { get; set; }
+
+        public JSchemaReaderOptions? Options { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether schema references should be resolved.

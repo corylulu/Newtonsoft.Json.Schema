@@ -14,7 +14,7 @@
     <Summary>Json.NET Schema is a complete and easy-to-use JSON Schema framework for .NET</Summary>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Title>Json.NET Schema</Title>
-    <PackageId>Newtonsoft.Json.Schema</PackageId>
+    <PackageId>Cll.Newtonsoft.Json.Schema</PackageId>
     <PackageTags>json;schema;jsonschema</PackageTags>
     <PackageIcon>packageIcon.png</PackageIcon>
     <PackageIconFullPath>$(MSBuildThisFileDirectory)packageIcon.png</PackageIconFullPath>

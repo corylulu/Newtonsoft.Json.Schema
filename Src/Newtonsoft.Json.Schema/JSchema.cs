@@ -949,6 +949,8 @@ namespace Newtonsoft.Json.Schema
         /// <value>The format.</value>
         public string? Format { get; set; }
 
+        public JSchemaReaderOptions? Options { get; set; }
+
         /// <summary>
         /// Gets a <see cref="JsonValidator"/> collection that will be used during validation.
         /// </summary>

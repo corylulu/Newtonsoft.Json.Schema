@@ -156,6 +156,35 @@ namespace Newtonsoft.Json.Schema.Tests
             Assert.AreEqual("#/properties/values/items", errors[1].SchemaId.OriginalString);
         }
 
+        [Test]
+        public void ValidateUriType()
+        {
+            string json = @"{
+  ""value"": ""ventuz://assets/Images/Test image.png""
+}";
+
+            JSchemaReaderSettings settings = new JSchemaReaderSettings
+            {
+                Validators = new List<JsonValidator> { new JsonFormatValidator() },
+                Options = new JSchemaReaderOptions { AllowMalformedUris = true }
+            };
+
+            JSchema schema = JSchema.Parse(@"{
+  ""type"": ""object"",
+  ""properties"": {
+    ""value"": {
+        ""type"": ""string"",
+        ""format"": ""uri""
+    }
+  }
+}", settings);
+
+            JObject o = JObject.Parse(json);
+
+            IList<ValidationError> errors;
+            Assert.IsFalse(o.IsValid(schema, out errors));
+        }
+
         public class JsonFormatValidator : JsonValidator
         {
             public override void Validate(JToken value, JsonValidatorContext context)

@@ -245,7 +245,7 @@ namespace Newtonsoft.Json.Schema.Infrastructure.Validation
 
             if (schema.Format != null)
             {
-                bool valid = ValidateFormat(schema.Format, value);
+                bool valid = ValidateFormat(schema.Format, value, schema.Options);
 
                 if (!valid)
                 {
@@ -258,7 +258,7 @@ namespace Newtonsoft.Json.Schema.Infrastructure.Validation
 
         private static readonly char[] CaseInsensitiveDateTimeChars = new[] { 't', 'z' };
 
-        private static bool ValidateFormat(string format, string value)
+        private static bool ValidateFormat(string format, string value, JSchemaReaderOptions? options)
         {
             switch (format)
             {
@@ -295,7 +295,7 @@ namespace Newtonsoft.Json.Schema.Infrastructure.Validation
                     }
                 case Constants.Formats.Uri:
                     {
-                        return Uri.IsWellFormedUriString(value, UriKind.Absolute);
+                        return options?.AllowMalformedUris == true ? Uri.TryCreate(value, UriKind.RelativeOrAbsolute, out Uri _) : Uri.IsWellFormedUriString(value, UriKind.Absolute);
                     }
                 case Constants.Formats.UriReference:
                     {
